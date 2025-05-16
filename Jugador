@@ -1,0 +1,63 @@
+import java.util.*;
+import java.io.Serializable;
+
+public class Jugador implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    private String nombre;
+    private Vector<Barco> barcos;  
+    private Tablero tableroBarcos;
+    private Tablero tableroDisparos;
+
+    public Jugador(String nombre) {
+        this.nombre = nombre;
+        barcos = new Vector<>();
+        tableroBarcos = new Tablero();
+        tableroDisparos = new Tablero();
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public Tablero getTableroBarcos() {
+        return tableroBarcos;
+    }
+
+    public Tablero getTableroDisparos() {
+        return tableroDisparos;
+    }
+
+    public void agregarBarco(Barco b) {
+        barcos.add(b);
+    }
+
+    public boolean recibirDisparo(Coordenada c) {
+        for (Barco b : barcos) {
+            if (b.recibirImpacto(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String verificarEstado(Coordenada c) {
+        for (Barco b : barcos) {
+            if (b.ocupa(c)) {
+                if (b.estaHundido()) {
+                    return "¡Hundido!";
+                } else {
+                    return "¡Impacto!";
+                }
+            }
+        }
+        return "¡Agua!";
+    }
+
+    public boolean tieneBarcosVivos() {
+        for (Barco b : barcos) {
+            if (!b.estaHundido()) return true;
+        }
+        return false;
+    }
+}
