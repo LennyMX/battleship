@@ -1,0 +1,30 @@
+import java.io.Serializable;
+import java.util.*;
+
+public class Barco implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    private Vector<Coordenada> posiciones;
+    private Set<Coordenada> impactos;
+
+    public Barco(Vector<Coordenada> posiciones) {
+        this.posiciones = posiciones;
+        this.impactos = new HashSet<>();
+    }
+
+    public boolean ocupa(Coordenada c) {
+        return posiciones.contains(c);
+    }
+
+    public boolean recibirImpacto(Coordenada c) {
+        if (ocupa(c)) {
+            impactos.add(c);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean estaHundido() {
+        return impactos.size() == posiciones.size();
+    }
+}
